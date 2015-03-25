@@ -79,7 +79,7 @@ private
       if field.starts_with?("cf_")
         mapping_hash["custom_field_values"] = (mapping_hash["custom_field_values"] || {}).merge(field[3..-1]=>@issue_row[index])
       else
-        mapping_hash[field]= (@issue_row[index].encode("UTF-8", "ISO-8859-15") rescue @issue_row[index])
+        mapping_hash[field]= @issue_row[index]
       end
     end
     mapping_hash
