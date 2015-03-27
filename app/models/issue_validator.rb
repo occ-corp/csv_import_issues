@@ -51,8 +51,8 @@ class IssueValidator
   end
 
   def get_user(field)
-    name = @issue_row[IssueMapper.get_value(field)].split(' ') rescue nil
-    User.where("firstname = ? AND lastname = ? ",name.first,name.last).first if name
+    name = @issue_row[IssueMapper.get_value(field)]
+    User.where("lastname || firstname = ?", name).first if name
   end
 
   def issue_param_hash
