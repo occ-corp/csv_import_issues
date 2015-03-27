@@ -102,10 +102,10 @@ private
       issue_validator = IssueValidator.new(issue, @project, params[:options])
       issue_param_hash = issue_validator.issue_param_hash
 
-      @issue=Issue.new(project: @project, created_on: issue_param_hash['created_on'], updated_on: issue_param_hash['updated_on'])
+      @issue=Issue.new(project: @project, created_on: issue_param_hash['created_on'], updated_on: issue_param_hash['updated_on'], tracker: issue_param_hash['tracker'], author: issue_param_hash['author'])
       call_hook(:controller_issues_new_before_save, { :params => issue_param_hash, :issue => @issue })
       @issue.safe_attributes = issue_param_hash
-      ['tracker', 'author'].each{|mapping| @issue.send("#{mapping}=", issue_param_hash["#{mapping}"])}
+      @issue.custom_field_values = issue_param_hash['custom_field_values']
       unless issue_validator.errors.blank? and @issue.valid?
         @issue.errors.messages.merge!(issue_validator.errors.messages)
         validation_failed = true
